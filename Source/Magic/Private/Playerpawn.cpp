@@ -66,6 +66,8 @@ void APlayerpawn::Tick(float DeltaTime)
 	if(mode == 0)
 	{
 		charState->GravityScale = 1;
+		charState->AirControl = 0.05f;
+		charState->FallingLateralFriction = 0;
 		moveDirection0 = FTransform(GetControlRotation()).TransformVector(moveDirection0);
 		AddMovementInput(moveDirection0);
 		moveDirection0 = FVector::ZeroVector;
@@ -73,9 +75,17 @@ void APlayerpawn::Tick(float DeltaTime)
 	else if(mode == 1)
 	{
 		charState->GravityScale = 0;
+		charState->AirControl = 0.3f;
+		charState->FallingLateralFriction = 0.5f;
+		
 		moveDirection1 = FTransform(GetControlRotation()).TransformVector(moveDirection1);
 		AddMovementInput(moveDirection1);
-		moveDirection1 = FVector3d::ZeroVector;
+		moveDirection1 = FVector::ZeroVector;
+		if(charState->IsFalling() == false)
+		{
+			mode = 0;
+			GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Yellow, TEXT("Now Walking"));
+		}
 	}
 
 	if(!fireReady)
@@ -146,11 +156,6 @@ void APlayerpawn::InputJump(const FInputActionValue& Value)
 	{
 		Jump();
 	}
-	else if(mode ==1)
-	{
-		mode = 0;
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Jump change"));
-	}
 }
 
 void APlayerpawn::InputFire(const FInputActionValue& Value)
@@ -185,24 +190,29 @@ void APlayerpawn::Ride(const FInputActionValue& Value)
 	if(mode == 0)
 	{
 		mode = 1;
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("mode is riding"));
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, TEXT("mode is riding"));
 	}
 	else if(mode == 1)
 	{
 		mode = 0;
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("mode is walking"));
+		charState->FallingLateralFriction = 0.5f;
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, TEXT("mode is walking"));
 	}
 }
 
 void APlayerpawn::Move3d(const FInputActionValue& Value)
 {
-	const FVector3d _currentValue = Value.Get<FVector3d>();
+	const FVector _currentValue = Value.Get<FVector>();
 	
 	if (Controller)
 	{
 		moveDirection1.Y = _currentValue.X;
 		moveDirection1.X = _currentValue.Y;
-	} // 나중에 6축 운동으로 고쳐
+
+		FVector NewLocation = GetActorLocation();
+		NewLocation.Z += _currentValue.Z * 5;
+		SetActorLocation(NewLocation);
+	}
 }
 
 void APlayerpawn::WalkToRun(const FInputActionValue& Value)

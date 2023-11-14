@@ -97,7 +97,7 @@ protected:
 	
 private:
 	FVector moveDirection0;
-	FVector3d moveDirection1;
+	FVector moveDirection1;
 	int mode;
 	
 	bool fireReady;
