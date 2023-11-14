@@ -176,12 +176,11 @@ void APlayerpawn::Stam(const FInputActionValue& Value)
 {
 	if(mode==0 && stamina >= 10 )
 	{
-		UE_LOG(LogTemp,Warning,TEXT("Stamina: %f"),stamina);
 		FVector direction = GetActorForwardVector();
 		SetActorLocation(GetActorLocation()+direction*300);
 		
 		stamina -= 10;
-		// GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Stamina: %d"),stamina));
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Stamina: %d"),stamina));
 	}
 }
 
