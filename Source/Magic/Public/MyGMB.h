@@ -13,5 +13,4 @@ UCLASS()
 class MAGIC_API AMyGMB : public AGameModeBase
 {
 	GENERATED_BODY()
-	
 };

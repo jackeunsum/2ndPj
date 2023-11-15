@@ -6,6 +6,15 @@
 #include "GameFramework/Actor.h"
 #include "Enemy.generated.h"
 
+UENUM()
+enum class EEnemyType : uint8
+{
+	E_Water UMETA(DisplayName = "Water"),
+	E_Fire UMETA(DisplayName = "Fire"),
+	E_Earth UMETA(DisplayName = "Earth"),
+	E_Air UMETA(DisplayName = "Air")
+};
+
 UCLASS()
 class MAGIC_API AEnemy : public AActor
 {
@@ -46,6 +55,18 @@ public:
 	UPROPERTY(EditAnywhere)
 	float fireCooltime;
 
+	UPROPERTY(EditAnywhere)
+	float HP;
+	
 private:
 	float fireTimerTime;
+	
+
+public:
+	UFUNCTION()
+	void OnEnemyOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex, bool bFromSeep, const FHitResult& SweepResult);
+
+	UPROPERTY(EditAnywhere)
+	EEnemyType EType;
 };

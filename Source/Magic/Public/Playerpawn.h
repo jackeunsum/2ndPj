@@ -91,9 +91,16 @@ public:
 	TSubclassOf<class APBullet> magazine;
 	
 	float stamina;
+
+	int HP;
+	int Maxp;
+	int TotalExp;
+	int Attak;
 	
 protected:
 	void FireCoolTimer(float Duration, float deltaTime);
+
+	class UMGGameInstance* MGInstance;
 	
 private:
 	FVector moveDirection0;
@@ -102,6 +109,5 @@ private:
 	
 	bool fireReady;
 	float fireTimer;
-
-	float HP;
+	
 };

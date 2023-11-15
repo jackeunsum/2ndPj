@@ -36,6 +36,8 @@ AEnemy::AEnemy()
 	
 	//타겟은 일단 없음
 	target = nullptr;
+
+	HP = 5000;
 }
 
 // Called when the game starts or when spawned
@@ -75,8 +77,18 @@ void AEnemy::Tick(float DeltaTime)
 	if (target != nullptr) // if (target)
 		{
 		const FVector _newDir = target->GetActorLocation() - GetActorLocation();
+		
 		FRotator PlayerRot = UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), target->GetActorLocation());
 		SetActorRotation(PlayerRot);
 		}
 }
 
+void AEnemy::OnEnemyOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSeep, const FHitResult& SweepResult)
+{
+	APlayerpawn* player = Cast<APlayerpawn>(OtherActor);
+	if(player != nullptr)
+	{
+		// 딱히 없음
+	}
+}

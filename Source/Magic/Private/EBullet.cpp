@@ -2,9 +2,10 @@
 
 
 #include "EBullet.h"
-
+#include "Playerpawn.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AEBullet::AEBullet()
@@ -37,7 +38,8 @@ void AEBullet::BeginPlay()
 	Super::BeginPlay();
 
 	FTimerHandle deathTimer;
-	GetWorld()->GetTimerManager().SetTimer(deathTimer,FTimerDelegate::CreateLambda([this]()->void{Destroy();}), 2.0f,false);
+	//GetWorld()->GetTimerManager().SetTimer(deathTimer,FTimerDelegate::CreateLambda([this]()->void{Destroy();}), 2.0f,false);
+	collisionComp -> OnComponentBeginOverlap.AddDynamic(this,&AEBullet::OnBulletOverlap);
 }
 
 // Called every frame
@@ -45,5 +47,29 @@ void AEBullet::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
+}
+
+void AEBullet::OnBulletOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSeep, const FHitResult& SweepResult)
+{
+	APlayerpawn* player = Cast<APlayerpawn>(OtherActor);
+	if(player != nullptr)
+	{
+		if(player->HP>0)
+		{
+			player->HP -= 1000;
+			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red,FString::Printf(TEXT("player HP: %d"),player->HP));
+			if(player->HP == 0)
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red,TEXT("You die"));
+				//UGameplayStatics::SetGamePaused(GetWorld(),true);
+			}
+		}
+		else if(player->HP<=0)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, TEXT("You die"));
+			//UGameplayStatics::SetGamePaused(GetWorld(),true);
+		}
+	}
 }
 

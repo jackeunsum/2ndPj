@@ -31,4 +31,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category = "Mesh")
 	class UStaticMeshComponent* meshComp;
+
+	UFUNCTION()
+	void OnBulletOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	                            int32 OtherBodyIndex, bool bFromSeep, const FHitResult &SweepResult);
+	
 };

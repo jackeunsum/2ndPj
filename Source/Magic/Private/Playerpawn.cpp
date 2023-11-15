@@ -2,6 +2,7 @@
 #include "Magic/Public/Playerpawn.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "MGGameInstance.h"
 #include "PBullet.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -31,6 +32,7 @@ APlayerpawn::APlayerpawn()
 	charState->bOrientRotationToMovement = true;
 	charState->RotationRate = FRotator(0.f,180.0f,0.0f);
 	charState->MaxWalkSpeed = 300.0f;
+	charState->GravityScale = 1.7;
 	bUseControllerRotationYaw = false;
 	
 	mode = 0; // mode = 0이면 걷기, 1이면 날기
@@ -40,8 +42,7 @@ APlayerpawn::APlayerpawn()
 	fireCoolTime = 0.4f;
 	fireTimer = 0;
 	fireReady = true;
-
-	HP = 10000;
+	
 }
 
 // Called when the game starts or when spawned
@@ -56,6 +57,13 @@ void APlayerpawn::BeginPlay()
 			Subsystem->AddMappingContext(WPlayerMappingContext, 0);
 		}
 	}
+	
+	MGInstance = Cast<UMGGameInstance>(GetWorld()->GetGameInstance());
+	Maxp = MGInstance->GetCharData(1)->MaxHP;
+	HP = Maxp;
+	Attak = MGInstance->GetCharData(1)->Attack;
+	TotalExp = 0;
+	
 }
 
 // Called every frame
@@ -65,7 +73,7 @@ void APlayerpawn::Tick(float DeltaTime)
 	
 	if(mode == 0)
 	{
-		charState->GravityScale = 1;
+		charState->GravityScale = 1.7;
 		charState->AirControl = 0.05f;
 		charState->FallingLateralFriction = 0;
 		moveDirection0 = FTransform(GetControlRotation()).TransformVector(moveDirection0);
@@ -74,7 +82,7 @@ void APlayerpawn::Tick(float DeltaTime)
 	}
 	else if(mode == 1)
 	{
-		charState->GravityScale = 0;
+		charState->GravityScale = 0.001f;
 		charState->AirControl = 0.3f;
 		charState->FallingLateralFriction = 0.5f;
 		
@@ -103,6 +111,7 @@ void APlayerpawn::Tick(float DeltaTime)
 	{
 		stamina = 100.0f;
 	}
+	
 }
 
 // Called to bind functionality to input
@@ -162,13 +171,15 @@ void APlayerpawn::InputFire(const FInputActionValue& Value)
 {
 	if(fireReady)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Ready"));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Ready"));
 		FTransform firePosition = weaponMeshComp -> GetSocketTransform(TEXT("FirePosition"));
 		//firePosition.Rotator() = cameraComp->GetComponentRotation();
 		GetWorld()->SpawnActor<APBullet>(magazine,firePosition);
 		//SpawnBullet();
 		fireReady = false;
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Finish"));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Finish"));
+		//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, FString::Printf(TEXT("MAX HP: %d"),Maxp));
+
 	}
 }
 
@@ -202,15 +213,17 @@ void APlayerpawn::Ride(const FInputActionValue& Value)
 void APlayerpawn::Move3d(const FInputActionValue& Value)
 {
 	const FVector _currentValue = Value.Get<FVector>();
-	
-	if (Controller)
+	if(mode == 1)
 	{
-		moveDirection1.Y = _currentValue.X;
-		moveDirection1.X = _currentValue.Y;
+		if (Controller)
+		{
+			moveDirection1.Y = _currentValue.X;
+			moveDirection1.X = _currentValue.Y;
 
-		FVector NewLocation = GetActorLocation();
-		NewLocation.Z += _currentValue.Z * 5;
-		SetActorLocation(NewLocation);
+			FVector NewLocation = GetActorLocation();
+			NewLocation.Z += _currentValue.Z * 5;
+			SetActorLocation(NewLocation);
+		}
 	}
 }
 
