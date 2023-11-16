@@ -94,8 +94,11 @@ public:
 
 	int HP;
 	int Maxp;
+	int NeedExp;
+	int CurExp;
 	int TotalExp;
-	int Attak;
+	int EnemyExp;
+
 	
 protected:
 	void FireCoolTimer(float Duration, float deltaTime);

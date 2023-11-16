@@ -42,10 +42,10 @@ public:
 public:
 	ForChar* GetCharData(int level);
 	int EnemyDeath;
+	int Playerlevel = 1;
+	int PlayerAttack;
 	
 private:
 	UPROPERTY()
 	class UDataTable* ForCharTable;
 };
-
-

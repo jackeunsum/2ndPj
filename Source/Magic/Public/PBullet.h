@@ -49,7 +49,7 @@ public:
 	int32 OtherBodyIndex, bool bFromSeep, const FHitResult &SweepResult);
 	
 	UPROPERTY(EditAnywhere)
-	float Soksung;
+	int Soksung;
 
 	UPROPERTY(EditAnywhere)
 	EBulletType BType;

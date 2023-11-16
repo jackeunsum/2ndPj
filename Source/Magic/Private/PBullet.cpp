@@ -2,6 +2,7 @@
 
 #include "Magic/Public/PBullet.h"
 #include "Enemy.h"
+#include "Playerpawn.h"
 #include "MGGameInstance.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
@@ -41,16 +42,16 @@ void APBullet::BeginPlay()
 	FTimerHandle deathTimer;
 	GetWorld()->GetTimerManager().SetTimer(deathTimer,FTimerDelegate::CreateLambda([this]()->void{Destroy();}), 2.0f,false);
 
-	collisionComp -> OnComponentBeginOverlap.AddDynamic(this,&APBullet::OnBulletOverlap);
-
+	collisionComp -> OnComponentBeginOverlap.AddDynamic(this,&APBullet::OnBulletOverlap);;
 	MGInstance = Cast<UMGGameInstance>(GetWorld()->GetGameInstance());
+	//player = Cast<UPlayer>(GetWorld()->);
 }
 
 // Called every frame
 void APBullet::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	Soksung = MGInstance->PlayerAttack;
 }
 
 void APBullet::OnBulletOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
@@ -62,11 +63,12 @@ void APBullet::OnBulletOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 		if(enemy->HP>0)
 		{
 			enemy->HP -= Soksung;
-			if(enemy->HP == 0)
+			if(enemy->HP <= 0)
 			{
 				OtherActor->Destroy();
 				MGInstance->EnemyDeath ++;
 				GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, FString::Printf(TEXT("Death: %d"),MGInstance->EnemyDeath));
+				Destroy();
 			}
 			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, FString::Printf(TEXT("Enemy HP: %f"),enemy->HP));
 		}
@@ -76,6 +78,7 @@ void APBullet::OnBulletOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 			OtherActor->Destroy();
 			MGInstance->EnemyDeath++;
 			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, FString::Printf(TEXT("Death: %d"),MGInstance->EnemyDeath));
+			Destroy();
 		}
 	}
 }

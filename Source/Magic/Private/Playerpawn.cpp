@@ -42,7 +42,6 @@ APlayerpawn::APlayerpawn()
 	fireCoolTime = 0.4f;
 	fireTimer = 0;
 	fireReady = true;
-	
 }
 
 // Called when the game starts or when spawned
@@ -61,8 +60,9 @@ void APlayerpawn::BeginPlay()
 	MGInstance = Cast<UMGGameInstance>(GetWorld()->GetGameInstance());
 	Maxp = MGInstance->GetCharData(1)->MaxHP;
 	HP = Maxp;
-	Attak = MGInstance->GetCharData(1)->Attack;
+	MGInstance->PlayerAttack = MGInstance->GetCharData(1)->Attack;
 	TotalExp = 0;
+	EnemyExp = 50; // 임시
 	
 }
 
@@ -111,6 +111,35 @@ void APlayerpawn::Tick(float DeltaTime)
 	{
 		stamina = 100.0f;
 	}
+
+	TotalExp = MGInstance->EnemyDeath * (EnemyExp);
+
+	NeedExp = MGInstance->GetCharData(MGInstance->Playerlevel)->ExpToNextLevel;
+	if(MGInstance->Playerlevel == 1)
+	{
+		CurExp = TotalExp;
+	}
+	else
+	{
+		CurExp = TotalExp - MGInstance->GetCharData(MGInstance->Playerlevel-1)->TotalExp;
+	}
+
+	//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, FString::Printf(TEXT("EXP: %d"),TotalExp));
+	
+	if(MGInstance->GetCharData(MGInstance->Playerlevel)->TotalExp <= TotalExp )
+	{
+		if(MGInstance->Playerlevel<5)
+		MGInstance->Playerlevel++;
+		MGInstance->PlayerAttack = MGInstance->GetCharData(MGInstance->Playerlevel)->Attack;
+		Maxp = MGInstance->GetCharData(MGInstance->Playerlevel)->MaxHP;
+		HP = Maxp; // 레벨업 시 피 회복
+		
+		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Green, FString::Printf(TEXT("Level Up! Current Level: %d"),MGInstance->Playerlevel));
+	}
+
+	
+	
+	
 	
 }
 
@@ -178,8 +207,9 @@ void APlayerpawn::InputFire(const FInputActionValue& Value)
 		//SpawnBullet();
 		fireReady = false;
 		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Finish"));
-		//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, FString::Printf(TEXT("MAX HP: %d"),Maxp));
-
+		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, FString::Printf(TEXT("EXP: %d"),CurExp));
+		
+		
 	}
 }
 

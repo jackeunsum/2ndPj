@@ -13,6 +13,7 @@ UMGGameInstance::UMGGameInstance()
 	FString CharDataPath = TEXT("/Game/Data/ForMagic.ForMagic");
 	static ConstructorHelpers::FObjectFinder<UDataTable> CharDT(*CharDataPath);
 	ForCharTable = CharDT.Object;
+	//PlayerAttack = GetCharData(1)->Attack;
 }
 
 ForChar* UMGGameInstance::GetCharData(int level)
