@@ -3,9 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "GameFramework/Character.h"
 #include "Enemy.generated.h"
 
+/*
 UENUM()
 enum class EEnemyType : uint8
 {
@@ -13,10 +14,11 @@ enum class EEnemyType : uint8
 	E_Fire UMETA(DisplayName = "Fire"),
 	E_Earth UMETA(DisplayName = "Earth"),
 	E_Air UMETA(DisplayName = "Air")
-};
+};*/
+
 
 UCLASS()
-class MAGIC_API AEnemy : public AActor
+class MAGIC_API AEnemy : public ACharacter
 {
 	GENERATED_BODY()
 	
@@ -36,8 +38,7 @@ protected:
 
 	void FindPlayer();
 	AActor* target;
-	
-	
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -67,6 +68,9 @@ public:
 	void OnEnemyOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 		int32 OtherBodyIndex, bool bFromSeep, const FHitResult& SweepResult);
 
-	UPROPERTY(EditAnywhere)
-	EEnemyType EType;
+	//UPROPERTY(EditAnywhere)
+	//EEnemyType EType;
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly,Category=FSM)
+	class UEnemyFS* fsm;
 };

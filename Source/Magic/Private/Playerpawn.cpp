@@ -136,11 +136,6 @@ void APlayerpawn::Tick(float DeltaTime)
 		
 		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Green, FString::Printf(TEXT("Level Up! Current Level: %d"),MGInstance->Playerlevel));
 	}
-
-	
-	
-	
-	
 }
 
 // Called to bind functionality to input
@@ -209,8 +204,8 @@ void APlayerpawn::InputFire(const FInputActionValue& Value)
 		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Finish"));
 		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, FString::Printf(TEXT("EXP: %d"),CurExp));
 		
-		
 	}
+	
 }
 
 void APlayerpawn::Stam(const FInputActionValue& Value)
