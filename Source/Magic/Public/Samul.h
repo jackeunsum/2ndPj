@@ -31,7 +31,8 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class AEBullet> magazine;
 
-	void OnBulletOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	UFUNCTION()
+	void OnBulletSamulOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 		int32 OtherBodyIndex, bool bFromSeep, const FHitResult& SweepResult);
 
 };

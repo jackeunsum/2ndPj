@@ -59,7 +59,7 @@ public:
 	float attackRange = 200.0f;
 
 	UPROPERTY(EditAnywhere, Category=FSM)
-	float daegiRange = 700.0f;
+	float daegiRange = 550.0f;
 	
 	//일정 시간 한번 공격한다
 	UPROPERTY(EditAnywhere, Category = FSM)

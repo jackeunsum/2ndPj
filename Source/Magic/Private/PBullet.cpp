@@ -6,6 +6,7 @@
 #include "MGGameInstance.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "EnemyFS.h"
 
 // Sets default values
 APBullet::APBullet()
@@ -71,6 +72,11 @@ void APBullet::OnBulletOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 				Destroy();
 			}
 			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, FString::Printf(TEXT("Enemy HP: %f"),enemy->HP));
+
+			/*
+			auto fsm = Cast<UEnemyFS>(enemy);
+			fsm->OnDamageProcess();
+			*/
 		}
 		else if(enemy->HP<=0)
 		{

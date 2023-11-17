@@ -109,6 +109,6 @@ void UEnemyFS::DieState()
 
 void UEnemyFS::OnDamageProcess()
 {
-	me->Destroy();
+	
 }
 

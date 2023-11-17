@@ -170,7 +170,7 @@ void APlayerpawn::Move(const FInputActionValue& Value)
 			if(Isrun == true)
 			{
 				stamina -= 0.1;
-				GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Yellow, FString::Printf(TEXT("Stamina: %f"),stamina));
+				// GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Yellow, FString::Printf(TEXT("Stamina: %f"),stamina));
 				if(stamina<=0)
 				{
 					charState->MaxWalkSpeed = 300.0f;
@@ -213,7 +213,7 @@ void APlayerpawn::InputFire(const FInputActionValue& Value)
 		//SpawnBullet();
 		fireReady = false;
 		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Finish"));
-		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, FString::Printf(TEXT("EXP: %d"),CurExp));
+		//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, FString::Printf(TEXT("EXP: %d"),CurExp));
 		
 	}
 	
@@ -227,7 +227,10 @@ void APlayerpawn::Stam(const FInputActionValue& Value)
 		SetActorLocation(GetActorLocation()+direction*300);
 		
 		stamina -= 10;
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Stamina: %f"),stamina));
+		if((int)stamina % 5 == 0)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Stamina: %f"),stamina));
+		}
 	}
 }
 
