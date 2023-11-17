@@ -53,11 +53,14 @@ public:
 	
 	UPROPERTY()
 	class AEnemy* me;
-
+	
 	//이 범위 안이면 공격한다
 	UPROPERTY(EditAnywhere, Category=FSM)
 	float attackRange = 200.0f;
 
+	UPROPERTY(EditAnywhere, Category=FSM)
+	float daegiRange = 700.0f;
+	
 	//일정 시간 한번 공격한다
 	UPROPERTY(EditAnywhere, Category = FSM)
 	float attackDelayTime = 2.0f;

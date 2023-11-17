@@ -43,12 +43,14 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	/*
 	UPROPERTY(EditAnywhere)
 	class UCapsuleComponent* myCapsuleComp;
 	UPROPERTY(EditAnywhere)
 	class USkeletalMeshComponent* mySkeletalMeshComp;
 	UPROPERTY(EditAnywhere)
 	class UArrowComponent* myArrowComp;
+	*/
 	
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class AEBullet> magazine;

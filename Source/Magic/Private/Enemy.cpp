@@ -52,10 +52,12 @@ void AEnemy::BeginPlay()
 	
 }
 
+/*
 void AEnemy::Fire()
 {
 	GetWorld()->SpawnActor<AEBullet>(magazine, myArrowComp->GetComponentLocation(), myArrowComp->GetComponentRotation());
 }
+*/
 
 void AEnemy::FireCoolTimer(float cooltime, float deltaTime)
 {
@@ -66,7 +68,7 @@ void AEnemy::FireCoolTimer(float cooltime, float deltaTime)
 	else
 		{
 		fireTimerTime = 0;
-		Fire();
+		//Fire();
 		}
 }
 

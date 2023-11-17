@@ -112,5 +112,5 @@ private:
 	
 	bool fireReady;
 	float fireTimer;
-	
+	bool Isrun;
 };
