@@ -36,7 +36,7 @@ APlayerpawn::APlayerpawn()
 	bUseControllerRotationYaw = false;
 	
 	mode = 0; // mode = 0이면 걷기, 1이면 날기
-	stamina = 100;
+	//stamina = 100;
 	stamcool = 119.0f;
 
 	fireCoolTime = 0.4f;
@@ -58,10 +58,10 @@ void APlayerpawn::BeginPlay()
 	}
 	
 	MGInstance = Cast<UMGGameInstance>(GetWorld()->GetGameInstance());
-	Maxp = MGInstance->GetCharData(1)->MaxHP;
-	HP = Maxp;
+	MGInstance->Maxp = MGInstance->GetCharData(1)->MaxHP;
+	MGInstance->HP = MGInstance->GetCharData(1)->MaxHP;
 	MGInstance->PlayerAttack = MGInstance->GetCharData(1)->Attack;
-	TotalExp = 0;
+	PTotalExp = 0;
 	EnemyExp = 50; // 임시
 	
 }
@@ -101,38 +101,38 @@ void APlayerpawn::Tick(float DeltaTime)
 		FireCoolTimer(fireCoolTime, DeltaTime);
 	}
 	
-	if(stamina < 100)
+	if(MGInstance->stamina < 100)
 	{
-		stamina += 0.01;
-		GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Yellow, FString::Printf(TEXT("Stamina: %f"),stamina));
+		MGInstance->stamina += 0.03;
+		//GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Yellow, FString::Printf(TEXT("Stamina: %f"),MGInstance->stamina));
 		
 	}
-	else if(stamina >= 100)
+	else if(MGInstance->stamina >= 100)
 	{
-		stamina = 100.0f;
+		MGInstance->stamina = 100.0f;
 	}
 
-	TotalExp = MGInstance->EnemyDeath * (EnemyExp);
+	PTotalExp = MGInstance->EnemyDeath * (EnemyExp);
 
-	NeedExp = MGInstance->GetCharData(MGInstance->Playerlevel)->ExpToNextLevel;
+	MGInstance->NeedExp = MGInstance->GetCharData(MGInstance->Playerlevel)->ExpToNextLevel;
 	if(MGInstance->Playerlevel == 1)
 	{
-		CurExp = TotalExp;
+		MGInstance->CurExp = PTotalExp;
 	}
 	else
 	{
-		CurExp = TotalExp - MGInstance->GetCharData(MGInstance->Playerlevel-1)->TotalExp;
+		MGInstance->CurExp = PTotalExp - MGInstance->GetCharData(MGInstance->Playerlevel-1)->TotalExp;
 	}
 
 	//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, FString::Printf(TEXT("EXP: %d"),TotalExp));
 	
-	if(MGInstance->GetCharData(MGInstance->Playerlevel)->TotalExp <= TotalExp )
+	if(MGInstance->GetCharData(MGInstance->Playerlevel)->TotalExp <= PTotalExp )
 	{
 		if(MGInstance->Playerlevel<5)
 		MGInstance->Playerlevel++;
 		MGInstance->PlayerAttack = MGInstance->GetCharData(MGInstance->Playerlevel)->Attack;
-		Maxp = MGInstance->GetCharData(MGInstance->Playerlevel)->MaxHP;
-		HP = Maxp; // 레벨업 시 피 회복
+		MGInstance->Maxp = MGInstance->GetCharData(MGInstance->Playerlevel)->MaxHP;
+		MGInstance->HP = MGInstance->GetCharData(MGInstance->Playerlevel)->MaxHP; // 레벨업 시 피 회복
 		
 		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Green, FString::Printf(TEXT("Level Up! Current Level: %d"),MGInstance->Playerlevel));
 	}
@@ -169,9 +169,9 @@ void APlayerpawn::Move(const FInputActionValue& Value)
 			moveDirection0.X = _currentValue.Y;
 			if(Isrun == true)
 			{
-				stamina -= 0.1;
+				MGInstance->stamina -= 0.1;
 				// GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Yellow, FString::Printf(TEXT("Stamina: %f"),stamina));
-				if(stamina<=0)
+				if(MGInstance->stamina<=0)
 				{
 					charState->MaxWalkSpeed = 300.0f;
 					Isrun = false;
@@ -221,16 +221,13 @@ void APlayerpawn::InputFire(const FInputActionValue& Value)
 
 void APlayerpawn::Stam(const FInputActionValue& Value)
 {
-	if(mode==0 && stamina >= 10 )
+	if(mode==0 && MGInstance->stamina >= 10 )
 	{
 		FVector direction = GetActorForwardVector();
 		SetActorLocation(GetActorLocation()+direction*300);
 		
-		stamina -= 10;
-		if((int)stamina % 5 == 0)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Stamina: %f"),stamina));
-		}
+		MGInstance->stamina -= 10;
+		// GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Stamina: %f"),MGInstance->stamina));
 	}
 }
 

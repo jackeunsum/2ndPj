@@ -5,7 +5,7 @@
 void UMGGameInstance::Init()
 {
 	Super::Init();
-	UE_LOG(LogTemp,Warning,TEXT("level 20 Max HP: %d"),GetCharData(2)->MaxHP)
+	// UE_LOG(LogTemp,Warning,TEXT("level 20 Max HP: %d"),GetCharData(2)->MaxHP)
 }
 
 UMGGameInstance::UMGGameInstance()

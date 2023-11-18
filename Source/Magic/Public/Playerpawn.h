@@ -89,24 +89,10 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Fire")
 	TSubclassOf<class APBullet> magazine;
+
+	UPROPERTY(BlueprintReadWrite)
+	int PTotalExp;
 	
-	float stamina;
-
-	UPROPERTY(BlueprintReadWrite)
-	int HP;
-
-	UPROPERTY(BlueprintReadWrite)
-	int Maxp;
-
-	UPROPERTY(BlueprintReadWrite)
-	int NeedExp;
-
-	UPROPERTY(BlueprintReadWrite)
-	int CurExp;
-
-	UPROPERTY(BlueprintReadWrite)
-	int TotalExp;
-
 	UPROPERTY(BlueprintReadWrite)
 	int EnemyExp;
 

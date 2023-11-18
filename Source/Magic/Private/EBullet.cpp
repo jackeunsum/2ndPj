@@ -2,6 +2,9 @@
 
 
 #include "EBullet.h"
+
+#include <MGGameInstance.h>
+
 #include "Playerpawn.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
@@ -53,19 +56,24 @@ void AEBullet::OnBulletOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSeep, const FHitResult& SweepResult)
 {
 	APlayerpawn* player = Cast<APlayerpawn>(OtherActor);
+	MGInstance = Cast<UMGGameInstance>(GetWorld()->GetGameInstance());
 	if(player != nullptr)
 	{
-		if(player->HP>0)
+		if(MGInstance->HP>0)
 		{
-			player->HP -= 1000;
-			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red,FString::Printf(TEXT("player HP: %d"),player->HP));
-			if(player->HP == 0)
+			MGInstance->HP -= 1000;
+			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red,FString::Printf(TEXT("player HP: %d"),MGInstance->HP));
+			//GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red,FString::Printf(TEXT("Max HP: %d"),MGInstance->Maxp));
+
+			if(MGInstance->HP == 0)
 			{
 				GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red,TEXT("You die"));
+		
 				//UGameplayStatics::SetGamePaused(GetWorld(),true);
 			}
+			Destroy();
 		}
-		else if(player->HP<=0)
+		else if(MGInstance->HP<=0)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Red, TEXT("You die"));
 			//UGameplayStatics::SetGamePaused(GetWorld(),true);

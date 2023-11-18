@@ -50,6 +50,23 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	int PlayerAttack;
+
+	UPROPERTY(BlueprintReadWrite)
+	float stamina = 100;
+
+	UPROPERTY(BlueprintReadWrite)
+	int HP;
+
+	UPROPERTY(BlueprintReadWrite)
+	int Maxp;
+
+	UPROPERTY(BlueprintReadWrite)
+	int NeedExp;
+
+	UPROPERTY(BlueprintReadWrite)
+	int CurExp;
+
+	
 	
 private:
 	UPROPERTY()
