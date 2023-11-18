@@ -41,8 +41,14 @@ public:
 
 public:
 	ForChar* GetCharData(int level);
+
+	UPROPERTY(BlueprintReadWrite)
 	int EnemyDeath;
+
+	UPROPERTY(BlueprintReadWrite)
 	int Playerlevel = 1;
+
+	UPROPERTY(BlueprintReadWrite)
 	int PlayerAttack;
 	
 private:

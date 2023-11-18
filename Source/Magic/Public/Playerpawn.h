@@ -92,11 +92,22 @@ public:
 	
 	float stamina;
 
+	UPROPERTY(BlueprintReadWrite)
 	int HP;
+
+	UPROPERTY(BlueprintReadWrite)
 	int Maxp;
+
+	UPROPERTY(BlueprintReadWrite)
 	int NeedExp;
+
+	UPROPERTY(BlueprintReadWrite)
 	int CurExp;
+
+	UPROPERTY(BlueprintReadWrite)
 	int TotalExp;
+
+	UPROPERTY(BlueprintReadWrite)
 	int EnemyExp;
 
 	
