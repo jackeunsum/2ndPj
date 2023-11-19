@@ -68,7 +68,12 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	bool Is1stReady;
-	
+
+	UPROPERTY(BlueprintReadWrite)
+	bool Is2ndReady;
+
+	UPROPERTY(BlueprintReadWrite)
+	int jewel;
 	
 private:
 	UPROPERTY()
