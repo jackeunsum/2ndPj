@@ -103,7 +103,7 @@ void APlayerpawn::Tick(float DeltaTime)
 	
 	if(MGInstance->stamina < 100)
 	{
-		MGInstance->stamina += 0.03;
+		MGInstance->stamina += 0.02;
 		//GEngine->AddOnScreenDebugMessage(-1, 0.1f, FColor::Yellow, FString::Printf(TEXT("Stamina: %f"),MGInstance->stamina));
 		
 	}
