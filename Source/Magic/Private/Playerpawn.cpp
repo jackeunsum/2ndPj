@@ -236,13 +236,13 @@ void APlayerpawn::Ride(const FInputActionValue& Value)
 	if(mode == 0)
 	{
 		mode = 1;
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, TEXT("mode is riding"));
+		// GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, TEXT("mode is riding"));
 	}
 	else if(mode == 1)
 	{
 		mode = 0;
 		charState->FallingLateralFriction = 0.5f;
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, TEXT("mode is walking"));
+		// GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, TEXT("mode is walking"));
 	}
 }
 
@@ -271,13 +271,13 @@ void APlayerpawn::WalkToRun(const FInputActionValue& Value)
 		{
 			charState->MaxWalkSpeed = 300.0f;
 			Isrun = false;
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("walk"));
+			// GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("walk"));
 		}
 		else
 		{
 			charState->MaxWalkSpeed = 700.0f;
 			Isrun = true;
-			GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("run"));
+			// GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("run"));
 		}
 	}
 }

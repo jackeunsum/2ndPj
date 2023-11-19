@@ -66,6 +66,8 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	int CurExp;
 
+	UPROPERTY(BlueprintReadWrite)
+	bool Is1stReady;
 	
 	
 private:

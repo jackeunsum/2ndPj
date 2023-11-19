@@ -6,6 +6,7 @@
 #include "NiagaraComponent.h"
 #include "Playerpawn.h"
 #include "Components/BoxComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AToNextLevel::AToNextLevel()
@@ -36,11 +37,12 @@ void AToNextLevel::OverLevel(UPrimitiveComponent* OverlappedComponent, AActor* O
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSeep, const FHitResult& SweepResult)
 {
 	APlayerpawn* player = Cast<APlayerpawn>(OtherActor);
-	GEngine->AddOnScreenDebugMessage(-1,3.0f,FColor::Red,TEXT("Overlap"));
 	
 	if(OtherActor && levelToLoad != "")
 	{
-		
+		FLatentActionInfo LatentInfo;
+		UGameplayStatics::LoadStreamLevel(this,levelToLoad,true,true,LatentInfo);
+		GEngine->AddOnScreenDebugMessage(-1,3.0f,FColor::Red,TEXT("Overlap"));
 	}
 }
 
