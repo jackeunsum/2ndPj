@@ -41,6 +41,9 @@ public:
 	class UStaticMeshComponent* weaponMeshComp;
 
 	
+	UPROPERTY(EditAnywhere)
+	class UArrowComponent* myArrowComp;
+	
 	
 	UPROPERTY()
 	class UCharacterMovementComponent* charState;
@@ -66,6 +69,9 @@ public:
 	UInputAction* FMoveIA;
 	UPROPERTY(EditAnywhere, Category = "InputW")
 	UInputAction* WalkToRunIA;
+
+	UPROPERTY(EditAnywhere, Category = "Animation")
+	UAnimMontage* attackAnimMontage;
 	
 public:
 	void Move(const FInputActionValue& Value);
@@ -77,8 +83,8 @@ public:
 	void Ride(const FInputActionValue& Value);
 	void Move3d(const FInputActionValue& Value);
 	void WalkToRun(const FInputActionValue& Value);
-
-	void SpawnBullet();
+	UFUNCTION()
+	void Spawn();
 	
 public:
 	UPROPERTY(EditAnywhere, Category = "Fire")

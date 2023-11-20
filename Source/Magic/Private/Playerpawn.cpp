@@ -3,8 +3,10 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "MGGameInstance.h"
+#include "MovieSceneSequenceID.h"
 #include "PBullet.h"
 #include "Camera/CameraComponent.h"
+#include "Components/ArrowComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Materials/MaterialExpressionStrata.h"
@@ -25,8 +27,14 @@ APlayerpawn::APlayerpawn()
 	cameraComp->SetupAttachment(springArmComp);
 	cameraComp->bUsePawnControlRotation = false;
 	
+
+	
 	weaponMeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WeaponMesh"));
 	weaponMeshComp->SetupAttachment(GetMesh());
+	weaponMeshComp->SetupAttachment(GetMesh(),FName("hand_rSocket"));
+
+	//GetArrowComponent() -> SetRelativeLocation(FVector(40,0,70));
+	//GetArrowComponent()->SetupAttachment(RootComponent);
 	
 	charState = GetCharacterMovement();
 	charState->bOrientRotationToMovement = true;
@@ -42,6 +50,9 @@ APlayerpawn::APlayerpawn()
 	fireCoolTime = 0.4f;
 	fireTimer = 0;
 	fireReady = true;
+
+	myArrowComp = CreateDefaultSubobject<UArrowComponent>(TEXT("myArrow"));
+	myArrowComp->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -207,9 +218,15 @@ void APlayerpawn::InputFire(const FInputActionValue& Value)
 	if(fireReady)
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Ready"));
-		FTransform firePosition = weaponMeshComp -> GetSocketTransform(TEXT("FirePosition"));
-		//firePosition.Rotator() = cameraComp->GetComponentRotation();
-		GetWorld()->SpawnActor<APBullet>(magazine,firePosition);
+		//FTransform firePosition = weaponMeshComp -> GetSocketTransform(TEXT("FirePosition"));
+		
+		UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+		
+		if(AnimInstance)
+		{
+			AnimInstance->Montage_Play(attackAnimMontage);
+		}
+		
 		//SpawnBullet();
 		fireReady = false;
 		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Finish"));
@@ -282,9 +299,11 @@ void APlayerpawn::WalkToRun(const FInputActionValue& Value)
 	}
 }
 
-void APlayerpawn::SpawnBullet()
+void APlayerpawn::Spawn()
 {
-	
+	// GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("notify"));
+	FTransform _firePosition = myArrowComp -> GetComponentTransform();
+	GetWorld()->SpawnActor<APBullet>(magazine,_firePosition);
 }
 
 void APlayerpawn::FireCoolTimer(float Duration, float deltaTime)

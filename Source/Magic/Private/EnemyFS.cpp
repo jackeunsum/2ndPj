@@ -4,6 +4,7 @@
 #include "EnemyFS.h"
 
 #include "Enemy.h"
+#include "MGGameInstance.h"
 #include "Playerpawn.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -85,9 +86,11 @@ void UEnemyFS::MoveState()
 void UEnemyFS::AttackState()
 {
 	currentTime += GetWorld()->DeltaTimeSeconds;
+	UMGGameInstance* MGInstance = Cast<UMGGameInstance>(GetWorld()->GetGameInstance());
 	if(currentTime > attackDelayTime)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, TEXT("Enemy attacking"));
+		MGInstance->HP -= 50;
 		currentTime = 0;
 	}
 	float distance = FVector::Distance(target->GetActorLocation(),me->GetActorLocation());
