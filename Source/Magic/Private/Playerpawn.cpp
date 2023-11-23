@@ -219,9 +219,9 @@ void APlayerpawn::InputFire(const FInputActionValue& Value)
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Ready"));
 		//FTransform firePosition = weaponMeshComp -> GetSocketTransform(TEXT("FirePosition"));
-		
+		FRotator ad = FRotator(cameraComp->GetComponentRotation().Pitch,cameraComp->GetComponentRotation().Yaw,this->GetActorRotation().Roll);
+		SetActorRotation(ad);
 		UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
-		
 		if(AnimInstance)
 		{
 			AnimInstance->Montage_Play(attackAnimMontage);
