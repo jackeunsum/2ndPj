@@ -31,15 +31,14 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 public:
-	UPROPERTY(VisibleAnywhere, Category = "Camera")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Camera")
 	class USpringArmComponent* springArmComp;
 	
-	UPROPERTY(VisibleAnywhere, Category = "Camera")
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Camera")
 	class UCameraComponent* cameraComp;
 
 	UPROPERTY(VisibleAnywhere, Category = "Fire")
 	class UStaticMeshComponent* weaponMeshComp;
-
 	
 	UPROPERTY(EditAnywhere)
 	class UArrowComponent* myArrowComp;
@@ -69,6 +68,9 @@ public:
 	UInputAction* FMoveIA;
 	UPROPERTY(EditAnywhere, Category = "InputW")
 	UInputAction* WalkToRunIA;
+	UPROPERTY(EditAnywhere, Category = "InputW")
+	UInputAction* InteractionIA;
+	
 
 	UPROPERTY(EditAnywhere, Category = "Animation")
 	UAnimMontage* attackAnimMontage;
@@ -83,6 +85,8 @@ public:
 	void Ride(const FInputActionValue& Value);
 	void Move3d(const FInputActionValue& Value);
 	void WalkToRun(const FInputActionValue& Value);
+	void Interaction(const FInputActionValue& Value);
+	
 	UFUNCTION()
 	void Spawn();
 	
