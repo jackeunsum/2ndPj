@@ -106,6 +106,9 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	int EnemyExp;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category="insert")
+	float interactionDistance;
+
 	
 protected:
 	void FireCoolTimer(float Duration, float deltaTime);
@@ -120,4 +123,6 @@ private:
 	bool fireReady;
 	float fireTimer;
 	bool Isrun;
+
+	
 };

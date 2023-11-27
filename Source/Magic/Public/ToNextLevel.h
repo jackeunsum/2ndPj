@@ -19,9 +19,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UFUNCTION()
-	void OverLevel(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-	int32 OtherBodyIndex, bool bFromSeep, const FHitResult &SweepResult);
+	
 
 public:	
 	// Called every frame
@@ -39,4 +37,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Level")
 	FName levelToLoad;
 
+	UFUNCTION()
+	void OverLevel(UPrimitiveComponent* OverlappedComponent,class AActor* OtherActor,class UPrimitiveComponent* OtherComp,
+	int32 OtherBodyIndex, bool bFromSeep, const FHitResult &SweepResult);
 };

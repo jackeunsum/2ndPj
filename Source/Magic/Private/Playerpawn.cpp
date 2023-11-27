@@ -53,6 +53,8 @@ APlayerpawn::APlayerpawn()
 
 	myArrowComp = CreateDefaultSubobject<UArrowComponent>(TEXT("myArrow"));
 	myArrowComp->SetupAttachment(RootComponent);
+
+	interactionDistance = 2000;
 }
 
 // Called when the game starts or when spawned
@@ -81,6 +83,8 @@ void APlayerpawn::BeginPlay()
 void APlayerpawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	
 	
 	if(mode == 0)
 	{
@@ -304,18 +308,20 @@ void APlayerpawn::WalkToRun(const FInputActionValue& Value)
 void APlayerpawn::Interaction(const FInputActionValue& Value)
 {
 	// GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("Good"));
-	FVector _Location; // 시작점 끝점 위해
-	FRotator _Rotation;
-	FHitResult _HitOut;
+	// FVector _Location; // 시작점 끝점 위해
+	// FRotator _Rotation;
 
-	GetController()->GetPlayerViewPoint(_Location,_Rotation);// 지금 플레이어(이용자)가 보고있는 위치
+		FHitResult _HitOut;
 
-	FVector _Start = _Location;
-	FVector _End = (_Rotation.Vector()*2000);
+	// GetController()->GetPlayerViewPoint(_Location,_Rotation);// 지금 플레이어(이용자)가 보고있는 위치
 
+	FVector _Start = GetActorLocation();
+	FVector _End = (GetActorLocation()+(GetActorForwardVector()*interactionDistance));
+	
 	FCollisionQueryParams _traceParams;
-	GetWorld() -> LineTraceSingleByChannel(_HitOut,_Start,_End,ECC_Visibility,_traceParams); // 안적은 parameter는 default로 자동으로 설정
-	DrawDebugLine(GetWorld(),_Start,_End,FColor::Green,false,5.0f); //다른 월드에 가져오려면 메모리 캐시 써서 해야한다~~
+	GetWorld() -> LineTraceSingleByChannel(_HitOut,_Start,_End,ECC_Visibility,_traceParams);
+	DrawDebugLine(GetWorld(),_Start,_End,FColor::Green,false,3.0f);
+	
 }
 
 void APlayerpawn::Spawn()
