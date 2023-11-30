@@ -331,6 +331,20 @@ void APlayerpawn::Spawn()
 	GetWorld()->SpawnActor<APBullet>(magazine,_firePosition);
 }
 
+void APlayerpawn::UpdateMoney(int64 val)
+{
+	int64 _result;
+	_result = money + val;
+	if(_result < 0)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Magenta, TEXT("GuGi"));
+	}
+	else
+	{
+		money = _result;
+	}
+}
+
 void APlayerpawn::FireCoolTimer(float Duration, float deltaTime)
 {
 	if(fireTimer < Duration)

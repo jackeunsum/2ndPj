@@ -43,4 +43,7 @@ public:
 
 	UPROPERTY()
 	class UItemshop* itemShopWidget;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite,Category = "Shop")
+	TArray<FName> items; // row items
 };

@@ -109,6 +109,11 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category="insert")
 	float interactionDistance;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category="insert")
+	int64 money = 9999; // mmorpg에선 서버에 돈 데이터 적는다
+
+	UFUNCTION(BlueprintCallable)
+	void UpdateMoney(int64 val);
 	
 protected:
 	void FireCoolTimer(float Duration, float deltaTime);
@@ -123,6 +128,6 @@ private:
 	bool fireReady;
 	float fireTimer;
 	bool Isrun;
-
+	
 	
 };
